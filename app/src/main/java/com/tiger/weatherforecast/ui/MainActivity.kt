@@ -4,19 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tiger.weatherforecast.ui.components.ResultScreen
 import com.tiger.weatherforecast.ui.components.SearchScreen
+import com.tiger.weatherforecast.ui.model.ContentType
 import com.tiger.weatherforecast.ui.model.ResultUiState
 import com.tiger.weatherforecast.ui.theme.WeatherForecastTheme
 import org.koin.androidx.compose.koinViewModel
@@ -42,25 +37,34 @@ fun WeatherForecastRoute(
 ) {
     val uiState: ResultUiState = viewModel.uiState.collectAsStateWithLifecycle().value
     val isResultScreen = viewModel.isResultScreen.collectAsStateWithLifecycle().value
-    
-    when(windowWidthSizeClass){
-        WindowWidthSizeClass.Compact -> {
+    val query = viewModel.query.collectAsStateWithLifecycle().value
+    val contentType: ContentType
 
-        }
+    when (windowWidthSizeClass) {
+        WindowWidthSizeClass.Compact,
         WindowWidthSizeClass.Medium -> {
-
+            contentType = ContentType.VERTICAL_CONTENT
         }
-        WindowWidthSizeClass.Expanded -> {
 
+        WindowWidthSizeClass.Expanded -> {
+            contentType = ContentType.HORIZONTAL_CONTENT
         }
     }
 
-    if(isResultScreen){
-        ResultScreen(uiState = uiState)
+    if (isResultScreen) {
+        ResultScreen(
+            uiState = uiState,
+            onBackPressed = {
+                viewModel.updateIsResultScreen(false)
+            }
+        )
     } else {
         SearchScreen(
-            onSearchClick = {
+            query = query?:"",
+            onValueChange = {
                 viewModel.updateQuery(it)
+            },
+            onSearchClick = {
                 viewModel.updateIsResultScreen(true)
                 viewModel.queryWeatherData()
             }

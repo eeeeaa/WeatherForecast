@@ -16,6 +16,7 @@ class MainViewModel(
 ) : ViewModel() {
 
     private val _query: MutableStateFlow<String?> = MutableStateFlow(null)
+    val query: StateFlow<String?> get() = _query.asStateFlow()
 
     private val _isResultScreen: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isResultScreen: StateFlow<Boolean> get() = _isResultScreen.asStateFlow()
