@@ -5,6 +5,7 @@ import com.tiger.weatherforecast.data.datasource.network.AuthInterceptor
 import com.tiger.weatherforecast.repository.WeatherRepository
 import com.tiger.weatherforecast.repository.WeatherRepositoryImpl
 import com.tiger.weatherforecast.ui.MainViewModel
+import com.tiger.weatherforecast.ui.utils.UiModelMapper
 import okhttp3.OkHttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -21,9 +22,12 @@ val appModule = module {
     //Repository
     single<WeatherRepository> { WeatherRepositoryImpl(get()) }
 
+    //Mapper
+    factory { UiModelMapper() }
+
     //ViewModel
     viewModel {
-        MainViewModel(get())
+        MainViewModel(get(), get())
     }
 }
 

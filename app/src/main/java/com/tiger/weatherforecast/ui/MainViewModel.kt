@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.tiger.weatherforecast.repository.WeatherRepository
 import com.tiger.weatherforecast.repository.model.ResultWrapper
 import com.tiger.weatherforecast.ui.model.ResultUiState
+import com.tiger.weatherforecast.ui.utils.UiModelMapper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class MainViewModel(
-    private val weatherRepository: WeatherRepository
+    private val weatherRepository: WeatherRepository,
+    private val uiModelMapper: UiModelMapper
 ) : ViewModel() {
 
     private val _query: MutableStateFlow<String?> = MutableStateFlow(null)
@@ -48,8 +50,8 @@ class MainViewModel(
                         currentWeather is ResultWrapper.Success && forecast is ResultWrapper.Success -> {
                             _uiState.update {
                                 ResultUiState.SuccessScreen(
-                                    currentWeatherResponse = currentWeather.data,
-                                    forecastResponse = forecast.data
+                                    currentWeather = uiModelMapper.mapWeatherResponse(currentWeather.data),
+                                    forecasts = uiModelMapper.mapForecastResponse(forecast.data)
                                 )
                             }
                         }
