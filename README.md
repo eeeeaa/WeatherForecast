@@ -3,7 +3,7 @@
 ## Description
 - Simple Weather forecast application
 - fetched from Open Weather Api
-- consisted of two screens: Search screen and result screen
+- consisted of two main screens: Search screen and result screen
 
 ## Architecture
 - consists of UI layer, Repository layer, and Data layer
@@ -11,6 +11,7 @@
   - main activity and view model
   - compose screens and custom components
   - ui related models
+  - ui model mapper utility class
 - Repository layer
   - abstraction between UI and data layer
   - transform response into limited result types
