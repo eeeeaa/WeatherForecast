@@ -5,6 +5,11 @@
 - fetched from Open Weather Api
 - consisted of two main screens: Search screen and result screen
 
+## TODOs
+- more specific error handling for different cases
+- add tutorial or instructions for using the app
+- improve UI components
+
 ## Architecture
 - consists of UI layer, Repository layer, and Data layer
 - UI layer consists of:
