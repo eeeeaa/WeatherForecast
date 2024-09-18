@@ -11,13 +11,15 @@ interface WeatherRemoteDataSource {
     @GET("/data/2.5/weather")
     suspend fun getCurrentWeather(
         @Query("lat") lat: Double? = null,
-        @Query("lon") lon: Double? = null
+        @Query("lon") lon: Double? = null,
+        @Query("units") unit: String = "metric"
     ): Response<WeatherResponse?>
 
     @GET("/data/2.5/forecast")
     suspend fun getFiveDayForecast(
         @Query("lat") lat: Double? = null,
-        @Query("lon") lon: Double? = null
+        @Query("lon") lon: Double? = null,
+        @Query("units") unit: String = "metric"
     ): Response<ForecastResponse?>
 
     @GET("/geo/1.0/direct")
